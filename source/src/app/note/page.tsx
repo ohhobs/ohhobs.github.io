@@ -3,12 +3,12 @@
 import { useState, useEffect, ChangeEvent } from 'react'
 import Link from 'next/link'
 import type Note from '@/app/note/models/Note'
-import { loadAllNote, saveNote, updateNote, deleteNote } from '@/app/note/services/NoteService'
+import { loadAllNote, saveNote, updateNote, deleteNote, getTodayDate } from '@/app/note/services/NoteService'
 
 export default function Note() {
 
   const [notes, setNotes] = useState<Note[]>([])
-  const [newNoteName, setNewNoteName] = useState<string>('')
+  const [newNoteName, setNewNoteName] = useState<string>(getTodayDate())
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
   const [selectedNoteContent, setSelectedNoteContent] = useState<string>('')
 

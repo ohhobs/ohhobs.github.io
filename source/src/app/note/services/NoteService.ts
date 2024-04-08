@@ -43,3 +43,19 @@ export function deleteNote(note: Note): void {
   const key = `${idPrefix}${note.id}`
   localStorage.removeItem(key)
 }
+
+export function getTodayDate(): string {
+  const today: Date = new Date()
+  const fullYear: number = today.getFullYear()
+  const _month: number = today.getMonth() + 1
+  const month: () => string = () => {
+    if (_month < 10) return `0${_month}`
+    return `${_month}`
+  }
+  const _date: number = today.getDate()
+  const date: () => string = () => {
+    if (_date < 10) return `0${_date}`
+    return `${_date}`
+  }
+  return `${fullYear}-${month()}-${date()}`
+}
