@@ -59,3 +59,8 @@ export function getTodayDate(): string {
   }
   return `${fullYear}-${month()}-${date()}`
 }
+
+export function getNow(): string {
+  const now = new Date()
+  return now.toLocaleString()
+}

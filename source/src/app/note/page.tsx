@@ -3,7 +3,8 @@
 import { useState, useEffect, ChangeEvent } from 'react'
 import Link from 'next/link'
 import type Note from '@/app/note/models/Note'
-import { loadAllNote, saveNote, updateNote, deleteNote, getTodayDate } from '@/app/note/services/NoteService'
+import { loadAllNote, saveNote, updateNote, deleteNote, getTodayDate, getNow } from '@/app/note/services/NoteService'
+import { clearInterval } from 'timers'
 
 export default function Note() {
 
@@ -11,9 +12,15 @@ export default function Note() {
   const [newNoteName, setNewNoteName] = useState<string>(getTodayDate())
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
   const [selectedNoteContent, setSelectedNoteContent] = useState<string>('')
+  const [now, setNow] = useState<string>('')
+  const [clockInterval, setClockInterval] = useState<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     setAllNotes()
+    startClock()
+    return () => {
+      if (clockInterval !== null) clearInterval(clockInterval!)
+    }
   }, [])
 
   function setAllNotes(): void {
@@ -65,9 +72,18 @@ export default function Note() {
     return {}
   }
 
+  function startClock() {
+    setClockInterval(setInterval(clockProcess, 1000))
+  }
+
+  function clockProcess() {
+    setNow(getNow())
+  }
+
   return (
     <div>
-      <h1>Note</h1>
+      <div style={{textAlign:'right'}}>{now}</div>
+      <h1 style={{marginTop:'0'}}>Note</h1>
       <p>
         Keep your data only for you -
         no data tranferring through the internet.
