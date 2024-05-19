@@ -65,7 +65,7 @@ export default function Chat() {
 
   function enterChat(): void {
     const userId: string = uuidv4()
-    const socket = new WebSocket(`ws://20.190.123.30/ws?userId=${userId}`)
+    const socket = new WebSocket(`wss://123qweasd.com/ws?userId=${userId}`)
     setWebsocket(socket)
     setUserId(userId)
   }
