@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Router from "next/router"
 import { v4 as uuidv4 } from 'uuid'
 
 interface Message {
@@ -30,6 +32,8 @@ export default function Chat() {
   //   }
   // }
 
+  const router = useRouter()
+
   const [message, setMessage] = useState<string>('')
   const [websocket, setWebsocket] = useState<WebSocket | null>(null)
   const [userId, setUserId] = useState<string>('')
@@ -47,7 +51,10 @@ export default function Chat() {
   }
 
   useEffect(() => {
-    if (websocket) websocket!.onmessage = handleMessageEvent
+    if (websocket) {
+      websocket!.onmessage = handleMessageEvent
+      websocket!.onclose = handleCloseEvent
+    }
   }, [websocket, messages])
 
   function sendMessage(message: string): void {
@@ -78,6 +85,11 @@ export default function Chat() {
     if (messageType === 'CONTENT') setMessagesState(message, sender)
     else if (messageType === 'CONNECTION') setMessagesState('님이 접속하셨습니다.', sender)
     else if (messageType === 'DISCONNECTION') setMessagesState('님이 나가셨습니다.', sender)
+  }
+
+  function handleCloseEvent(e: CloseEvent): void {
+    console.log('handleCloseEvent', e)
+    window.location.reload()
   }
 
   function setMessagesState(message: string, senderId: string): void {
