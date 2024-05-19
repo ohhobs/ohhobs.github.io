@@ -58,6 +58,7 @@ export default function Chat() {
   }, [websocket, messages])
 
   function sendMessage(message: string): void {
+    if (!message || message === '') return;
     const _message = {
       messageType: "CONTENT",
       message,
