@@ -38,6 +38,7 @@ export default function Chat() {
   const [websocket, setWebsocket] = useState<WebSocket | null>(null)
   const [userId, setUserId] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
+  const [mode, setMode] = useState<string>('CONTENT')
 
   useEffect(() => {
     if (websocket) {
@@ -60,7 +61,7 @@ export default function Chat() {
   function sendMessage(message: string): void {
     if (!message || message === '') return;
     const _message = {
-      messageType: "TRANSLATE",
+      messageType: mode,
       message,
       user: {
         id: userId
@@ -127,10 +128,15 @@ export default function Chat() {
     <div>
       <h1>Hello, chat</h1>
       {userId ? (<>
-        <h3>당신의 아이디: {userId}</h3>
+        <p>현재 모드: {mode}</p>
         <div style={{ marginBottom: '10px' }}>
           <input value={message} onChange={e => setMessage(e.target.value)} type="text" />
           <button onClick={_ => sendMessage(message)}>보내기</button>
+          {mode === 'CONTENT' ? (
+            <button onClick={_ => setMode('TRANSLATE')}>모드바꾸기</button>
+          ) : (
+            <button onClick={_ => setMode('CONTENT')}>모드바꾸기</button>
+          )}
         </div>
         <div>
           {messages.map((m, i) => {
