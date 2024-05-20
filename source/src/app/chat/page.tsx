@@ -60,7 +60,7 @@ export default function Chat() {
   function sendMessage(message: string): void {
     if (!message || message === '') return;
     const _message = {
-      messageType: "CONTENT",
+      messageType: "TRANSLATE",
       message,
       user: {
         id: userId
