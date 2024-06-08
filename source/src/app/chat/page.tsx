@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import Router from "next/router"
 import { v4 as uuidv4 } from 'uuid'
 
 interface Message {
@@ -11,28 +9,6 @@ interface Message {
 }
 
 export default function Chat() {
-
-    // function connectSocket() {
-  //   const socket = new WebSocket(`ws://20.190.123.30/ws?userId=${userId}`)
-  //   setWebsocket(socket)
-  // }
-
-  // function setSocketEvents(socket: WebSocket): void {
-  //   socket.onopen = function(event) {
-  //     console.log('WebSocket connection established.')
-  //   }
-  //   socket.onmessage = function(event) {
-  //     console.log('Message received from server:', event.data)
-  //   }
-  //   socket.onerror = function(error) {
-  //     console.error('WebSocket error:', error)
-  //   }
-  //   socket.onclose = function(event) {
-  //     console.log('WebSocket connection closed:', event.code, event.reason);
-  //   }
-  // }
-
-  const router = useRouter()
 
   const [message, setMessage] = useState<string>('')
   const [websocket, setWebsocket] = useState<WebSocket | null>(null)
@@ -102,26 +78,16 @@ export default function Chat() {
   }
 
   function getStyle(senderId: string): any {
-    if (senderId === userId) return {
-      marginBottom: '10px', backgroundColor: 'lightgreen'
+    if (senderId === userId) {
+      return {
+        marginBottom: '10px',
+        backgroundColor: 'lightgreen'
+      }
     }
     return {
-      marginBottom: '10px', backgroundColor: 'lightblue'
+      marginBottom: '10px',
+      backgroundColor: 'lightblue'
     }
-  }
-
-  function generateRandomColor() {
-    // Generate random values for red, green, and blue components
-    const red = Math.floor(Math.random() * 156) + 100; // Adjusted to ensure darker colors
-    const green = Math.floor(Math.random() * 156) + 100; // Adjusted to ensure darker colors
-    const blue = Math.floor(Math.random() * 156) + 100; // Adjusted to ensure darker colors
-    
-    // Construct the hexadecimal color code
-    const colorCode = "#" + red.toString(16).padStart(2, '0') + 
-                            green.toString(16).padStart(2, '0') + 
-                            blue.toString(16).padStart(2, '0');
-    
-    return colorCode;
   }
 
   return (
